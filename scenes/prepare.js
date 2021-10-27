@@ -13,6 +13,8 @@ var Prepare = new Phaser.Class({
         this.load.image('platform', 'assets/plateforme.png');
         this.load.image('armor', 'assets/Armor_Bonus.png');
         this.load.image('shoot', 'assets/tir.png');
+        this.load.image('bomb_explode', 'assets/bomb_explode.png');
+        this.load.image('bomb_intact', 'assets/bomb_intact.png');
     },
 
     create: function ()

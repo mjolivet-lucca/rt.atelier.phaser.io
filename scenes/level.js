@@ -42,6 +42,23 @@ var Level = new Phaser.Class({
         this.shootSprite.body.setAllowGravity(false);
         this.shootSprite.body.enable = false;
         shootDir = 1;
+
+        // bomb_explode
+        this.bombExplodeSprite = this.physics.add.sprite(-100, -100, "bomb_explode");
+        this.bombExplodeSprite.body.enable = false;
+        
+        // bomb_intact
+        this.bombIntactSprite = this.physics.add.sprite(400, 0, "bomb_intact");
+
+        this.physics.add.collider(this.bombIntactSprite, platform);
+
+        this.physics.add.collider(this.shootSprite, this.bombIntactSprite, function (sprite1, sprite2) {
+            // this.bombExplodeSprite.body.enable = true;
+            // this.bombExplodeSprite.body.x = 400;
+            // this.bombExplodeSprite.body.y = sprite2.body.y;
+            sprite1.destroy();
+            sprite2.destroy();
+        });
     },
 
     update: function () {
@@ -52,7 +69,7 @@ var Level = new Phaser.Class({
             shootDir = this.player.body.velocity.x >= 0 ? 1 : -1;
         }
 
-        if (this.shootSprite.body.enable) {
+        if (this.shootSprite.body?.enable) {
             this.shootSprite.body.velocity.x = 100 * shootDir;
         }
 
