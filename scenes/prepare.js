@@ -9,8 +9,9 @@ var Prepare = new Phaser.Class({
 
     preload: function(){
         this.load.image('phaser-logo', 'assets/phaser-logo.png');
-        this.load.image('player', 'assets/perso.png');
-        this.load.image('ground', 'assets/plateforme.png');
+        this.load.image('player', 'assets/lucca.png');
+        this.load.image('ground', 'assets/sol.png');
+        this.load.image('armor', 'assets/Armor_Bonus.png');
     },
 
     create: function ()
