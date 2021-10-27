@@ -1,6 +1,6 @@
 var config = {
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: 800,
+  height: 600,
   type: Phaser.CANVAS,
   physics: {
     default: 'arcade',
@@ -10,7 +10,10 @@ var config = {
     }
   },
   parent: 'game',
-  scene: [ Prepare, Level ]
+  scene: [ Prepare, Level ],
+  scale: {
+    zoom: 2
+  }
 }
 
 var game = new Phaser.Game(config);
