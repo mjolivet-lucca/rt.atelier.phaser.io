@@ -103,24 +103,7 @@ var Level = new Phaser.Class({
                 sprite2.play('explode', true);
             }
 
-            sprite2.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function (tutu) {
-                // console.log(tutu, 'complete')
-                // this.tweens.add({
-                //     targets: sprite2,
-                //     alpha: 0,
-                //     scale: 4,
-                //     duration: 1500,
-                //     ease: 'Power2',
-                //     onComplete: function () {
-                //     }
-                // });
-
-                console.log(tutu);
-                tutu.alpha = 0;
-                tutu.visible = false;
-                // tutu.destroy();
-
-            })
+            setTimeout(() => sprite2.destroy(), 500);
         });
 
 
