@@ -57,6 +57,7 @@ var Level = new Phaser.Class({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('bomb_sprite', { frames: [1, 2]}),
             frameRate: 16,
+            hideOnComplete: true,
         });
     },
 
@@ -104,8 +105,6 @@ var Level = new Phaser.Class({
             if (sprite2) {
                 sprite2.play('explode', true);
             }
-
-            setTimeout(() => sprite2.destroy(), 500);
         });
 
         this.shootSprites.push(shootSprite);
