@@ -1,6 +1,6 @@
 var config = {
-  width: 800,
-  height: 600,
+  width: 400,
+  height: 300,
   type: Phaser.CANVAS,
   physics: {
     default: 'arcade',
