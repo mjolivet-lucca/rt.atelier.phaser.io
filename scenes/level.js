@@ -47,7 +47,6 @@ var Level = new Phaser.Class({
         this.bombIntactSprite = this.physics.add.sprite(400, 0, "bomb_sprite");
         this.physics.add.collider(this.bombIntactSprite, platform);
 
-
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('bomb_sprite', { frames: [0]}),
@@ -98,6 +97,9 @@ var Level = new Phaser.Class({
         shootSprite.body.y = this.player.body.y + 2;
 
         this.physics.add.collider(shootSprite, this.bombIntactSprite, function (sprite1, sprite2) {
+            sprite1.body.velocity.x = 0;
+            sprite2.body.velocity.x = 0;
+
             sprite1.destroy();
             if (sprite2) {
                 sprite2.play('explode', true);
@@ -105,10 +107,6 @@ var Level = new Phaser.Class({
 
             setTimeout(() => sprite2.destroy(), 500);
         });
-
-
-
-
 
         this.shootSprites.push(shootSprite);
     },
