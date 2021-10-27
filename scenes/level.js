@@ -37,40 +37,37 @@ var Level = new Phaser.Class({
 
         oneWayPlatformCollider = this.physics.add.collider(this.player, oneWayPlatforms);
 
-        // Shoot
-        this.shootSprite = this.physics.add.sprite(-10, -10, "shoot");
-        this.shootSprite.body.setAllowGravity(false);
-        this.shootSprite.body.enable = false;
-        shootDir = 1;
+        this.shootSprites = [];
 
         // bomb_explode
         this.bombExplodeSprite = this.physics.add.sprite(-100, -100, "bomb_explode");
         this.bombExplodeSprite.body.enable = false;
-        
-        // bomb_intact
-        this.bombIntactSprite = this.physics.add.sprite(400, 0, "bomb_intact");
 
+        // bomb_intact
+        this.bombIntactSprite = this.physics.add.sprite(400, 0, "bomb_sprite");
         this.physics.add.collider(this.bombIntactSprite, platform);
 
-        this.physics.add.collider(this.shootSprite, this.bombIntactSprite, function (sprite1, sprite2) {
-            // this.bombExplodeSprite.body.enable = true;
-            // this.bombExplodeSprite.body.x = 400;
-            // this.bombExplodeSprite.body.y = sprite2.body.y;
-            sprite1.destroy();
-            sprite2.destroy();
+
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('bomb_sprite', { frames: [0]}),
+            frameRate: 16,
+        });
+
+        this.anims.create({
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('bomb_sprite', { frames: [1, 2]}),
+            frameRate: 16,
         });
     },
 
     update: function () {
-        if (shootButton.isDown){
-            this.shootSprite.body.enable = true;
-            this.shootSprite.body.x = this.player.body.x + 20;
-            this.shootSprite.body.y = this.player.body.y + 2;
-            shootDir = this.player.body.velocity.x >= 0 ? 1 : -1;
+        if (shootButton.isDown && !this.shootSprites.length) {
+            this.reload();
         }
 
-        if (this.shootSprite.body?.enable) {
-            this.shootSprite.body.velocity.x = 100 * shootDir;
+        if (shootButton.isUp && !!this.shootSprites.length) {
+            this.shoot();
         }
 
         if (cursors.left.isDown) {
@@ -88,5 +85,54 @@ var Level = new Phaser.Class({
         }
 
         oneWayPlatformCollider.active = this.player.body.velocity.y >= 0;
+    },
+
+    reload: function () {
+        const shootSprite = this.physics.add.sprite(-10, -10, "shoot");
+        shootSprite.body.setAllowGravity(false);
+        shootDir = 1;
+
+        shootSprite.body.enable = true;
+
+        shootSprite.body.x = this.player.body.x + 20;
+        shootSprite.body.y = this.player.body.y + 2;
+
+        this.physics.add.collider(shootSprite, this.bombIntactSprite, function (sprite1, sprite2) {
+            sprite1.destroy();
+            if (sprite2) {
+                sprite2.play('explode', true);
+            }
+
+            sprite2.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function (tutu) {
+                // console.log(tutu, 'complete')
+                // this.tweens.add({
+                //     targets: sprite2,
+                //     alpha: 0,
+                //     scale: 4,
+                //     duration: 1500,
+                //     ease: 'Power2',
+                //     onComplete: function () {
+                //     }
+                // });
+
+                console.log(tutu);
+                tutu.alpha = 0;
+                tutu.visible = false;
+                // tutu.destroy();
+
+            })
+        });
+
+
+
+
+
+        this.shootSprites.push(shootSprite);
+    },
+
+    shoot: function () {
+        shootDir = this.player.body.velocity.x >= 0 ? 1 : -1;
+        const shoot = this.shootSprites.pop();
+        shoot.body.velocity.x = 100 * shootDir;
     },
 });
