@@ -1,5 +1,8 @@
 # Atelier RT Phaser.io (27 octobre 2021)
 
+## Résultat de l'atelier
+![resultat_atelier_rt](https://user-images.githubusercontent.com/76952659/139223438-78b04051-5586-4c94-993a-dceae2d65132.gif)
+
 -----
 ## Installations préalables
  * `npm install -g http-server` => permet d'avoir un server http simple
